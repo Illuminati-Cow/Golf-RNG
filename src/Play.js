@@ -35,11 +35,13 @@ class Play extends Phaser.Scene {
             //this.ball.body.setVelocityX(Phaser.Math.Between(-this.SHOT_VELOCITY_X, this.SHOT_VELOCITY_X))
             this.ball.body.setVelocityX(this.ball.x - pointer.x )
             this.ball.body.setVelocityY(shotDirection * (Phaser.Math.Between(this.SHOT_VELOCITY_MIN_Y, this.SHOT_VELOCITY_MAX_Y)))
+            this.shots++
         })
 
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
             ball.x = this.SPAWN_POS.x
             ball.y = this.SPAWN_POS.y
+            this.holeins++
         })
         // Walls
         this.wallA = this.physics.add.sprite(0, height / 4, 'wall').setOrigin(0)
@@ -63,9 +65,11 @@ class Play extends Phaser.Scene {
         this.shots = 0
         this.holeins = 0
         this.add.text(0, 0, "Shots: ").setOrigin(0).setScale(2)
-        this.shotCounter = this.add.text(width / 10, 0, "").setOrigin(0).setScale(2)
+        this.shotCounter = this.add.text(width / 4, 0, "").setOrigin(0).setScale(2)
         this.add.text(0, width / 10, "HoleIns: ").setOrigin(0).setScale(2)
-        this.holeInCounter = this.add.text(width / 10, width / 10, "").setOrigin(0).setScale(2)
+        this.holeInCounter = this.add.text(width / 4, width / 10, "").setOrigin(0).setScale(2)
+        this.percentageCounter = this.add.text(width / 2, width / 6, "").setOrigin(0).setScale(2)
+        this.add.text(0, width / 6, "Shot Percentage: ").setOrigin(0).setScale(2)
     }
     update() {
         if (this.wallA.x >= width - this.wallA.width)
@@ -74,5 +78,8 @@ class Play extends Phaser.Scene {
             this.wallADir = 1
         this.wallA.body.setVelocityX(this.WALL_VELOCITY.x * this.wallADir)
         this.wallA.body.setVelocityY(this.WALL_VELOCITY.y * this.wallADir)
+        this.shotCounter.text = this.shots
+        this.holeInCounter.text = this.holeins
+        this.percentageCounter.text = this.holeins / this.shots + "%"
     }
 }
