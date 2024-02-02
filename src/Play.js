@@ -80,6 +80,6 @@ class Play extends Phaser.Scene {
         this.wallA.body.setVelocityY(this.WALL_VELOCITY.y * this.wallADir)
         this.shotCounter.text = this.shots
         this.holeInCounter.text = this.holeins
-        this.percentageCounter.text = this.holeins / this.shots + "%"
+        this.percentageCounter.text = Math.floor(this.holeins / this.shots * 100) + "%"
     }
 }
